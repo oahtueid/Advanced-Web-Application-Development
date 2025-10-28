@@ -37,8 +37,8 @@ export class UserService {
       
       console.log('User saved successfully:', savedUser.id);
 
-      // Return user without password
-      return {
+      // Return user without password - ensure it's a plain object
+      const response = {
         message: 'User registered successfully',
         user: {
           id: savedUser.id,
@@ -46,6 +46,9 @@ export class UserService {
           createdAt: savedUser.createdAt,
         },
       };
+      
+      console.log('Returning response:', JSON.stringify(response));
+      return response;
     } catch (error) {
       console.error('Registration error:', error);
       if (error instanceof ConflictException) {
