@@ -12,6 +12,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get('PORT') || 3001;
   const frontendUrl = configService.get('FRONTEND_URL') || 'http://localhost:5173';
+  console.log("Configuring CORS for frontend URL:", frontendUrl);
 
   // Enable CORS 
   app.enableCors({
@@ -35,31 +36,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
-
-// Export the NestJS app for Vercel serverless
-export default async (req, res) => {
-  const app = await NestFactory.create(AppModule);
-  
-  const configService = app.get(ConfigService);
-  const frontendUrl = configService.get('FRONTEND_URL') || 'http://localhost:5173';
-
-  app.enableCors({
-    origin: frontendUrl,
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  });
-
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
-
-  await app.init();
-  const server = app.getHttpAdapter().getInstance();
-  return server(req, res);
-};
