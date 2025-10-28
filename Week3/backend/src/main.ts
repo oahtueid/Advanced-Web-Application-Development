@@ -47,6 +47,8 @@ export default async (req, res) => {
   app.enableCors({
     origin: frontendUrl,
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
   app.useGlobalPipes(
