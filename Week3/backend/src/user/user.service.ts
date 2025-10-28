@@ -32,7 +32,10 @@ export class UserService {
         password: hashedPassword,
       });
 
+      // Save user to database
       const savedUser = await this.userRepository.save(newUser);
+      
+      console.log('User saved successfully:', savedUser.id);
 
       // Return user without password
       return {
@@ -44,6 +47,7 @@ export class UserService {
         },
       };
     } catch (error) {
+      console.error('Registration error:', error);
       if (error instanceof ConflictException) {
         throw error;
       }
