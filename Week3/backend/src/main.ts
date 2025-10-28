@@ -13,7 +13,7 @@ async function bootstrap() {
   const port = configService.get('PORT') || 3001;
   const frontendUrl = configService.get('FRONTEND_URL') || 'http://localhost:5173';
 
-  // Enable CORS
+  // Enable CORS 
   app.enableCors({
     origin: frontendUrl,
     credentials: true,
