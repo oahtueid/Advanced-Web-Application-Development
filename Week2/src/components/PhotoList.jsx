@@ -48,12 +48,12 @@ const PhotoList = () => {
     } finally {
       setLoading(false);
     }
-  }, [loading]);
+  }, []);
 
   // Fetch initial photos on component mount
   useEffect(() => {
     fetchPhotos(page);
-  }, []);
+  }, [page, fetchPhotos]);
 
   // Intersection Observer callback for infinite scroll
   const lastPhotoRef = useCallback(node => {
@@ -64,7 +64,6 @@ const PhotoList = () => {
       if (entries[0].isIntersecting && hasMore) {
         setPage(prevPage => {
           const nextPage = prevPage + 1;
-          fetchPhotos(nextPage);
           return nextPage;
         });
       }
