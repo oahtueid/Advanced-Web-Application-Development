@@ -10,14 +10,7 @@ Before you begin, ensure you have the following installed:
 
 ## 🚀 Installation
 
-### 1. Clone the Repository
-
-```bash
-git clone <repository-url>
-cd Week3
-```
-
-### 2. Backend Setup
+### 1. Backend Setup
 
 ```bash
 # Navigate to backend folder
@@ -45,7 +38,7 @@ psql -U postgres
 CREATE DATABASE user_registration;
 ```
 
-### 3. Frontend Setup
+### 2. Frontend Setup
 
 ```bash
 # Navigate to frontend folder (from Week3 directory)
