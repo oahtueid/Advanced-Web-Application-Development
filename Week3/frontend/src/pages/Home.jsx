@@ -53,7 +53,7 @@ const Home = () => {
         </div>
 
         <div className="mt-12 text-sm text-gray-500">
-          <p>Built with NestJS, React, MongoDB, and Tailwind CSS</p>
+          <p>Built with NestJS, React, Postgres, and Tailwind CSS</p>
         </div>
       </div>
     </div>
