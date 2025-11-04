@@ -11,17 +11,36 @@ import { AuthModule } from './auth/auth.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // Set to false in production
-        logging: false,
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const databaseUrl = configService.get<string>('DATABASE_URL');
+        
+        if (databaseUrl) {
+          // Use connection URL (Vercel deployment with Neon)
+          return {
+            type: 'postgres',
+            url: databaseUrl,
+            entities: [__dirname + '/**/*.entity{.ts,.js}'],
+            synchronize: true, // Set to false in production
+            logging: false,
+            ssl: {
+              rejectUnauthorized: false, // Required for Neon and most cloud providers
+            },
+          };
+        } else {
+          // Use individual parameters (local development)
+          return {
+            type: 'postgres',
+            host: configService.get<string>('DB_HOST'),
+            port: configService.get<number>('DB_PORT'),
+            username: configService.get<string>('DB_USERNAME'),
+            password: configService.get<string>('DB_PASSWORD'),
+            database: configService.get<string>('DB_DATABASE'),
+            entities: [__dirname + '/**/*.entity{.ts,.js}'],
+            synchronize: true, // Set to false in production
+            logging: false,
+          };
+        }
+      },
       inject: [ConfigService],
     }),
     AuthModule,
